@@ -18,6 +18,13 @@ namespace Starcounter.Database.Extensions
             }
         }
 
+        public static IDatabaseContext GetContext(object proxy)
+        {
+            IDatabaseContext db = DbProxy.GetContext(proxy);
+
+            return new OnDeleteContext(db);
+        }
+
         public OnDeleteTransactor(ITransactor transactor) : base(transactor) { }
 
         protected override IDatabaseContext EnterDatabaseContext(object transactorContext, IDatabaseContext db) => new OnDeleteContext(db);
